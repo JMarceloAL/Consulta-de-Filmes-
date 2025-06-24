@@ -1,0 +1,72 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.header {
+  height: 60px;
+  width: 100%;
+  background-color: rgb(31, 31, 31);
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.high_info {
+  height: 500px;
+  width: 100%;
+  background-color: #adb5bd;
+  padding: 20px;
+}
+
+.releases {
+  height: 300px;
+  width: 100%;
+  background-color: rgb(255, 137, 40);
+  padding: 20px;
+}
+
+.recommended {
+  height: 300px;
+  width: 100%;
+  background-color: rgb(85, 207, 81);
+  padding: 20px;
+}
+
+.footer {
+  height: 200px;
+  width: 100%;
+  background-color: rgb(36, 36, 36);
+  padding: 20px;
+}
+
+.inputext {
+  height: 40px;
+  width: 100%;
+  max-width: 500px;
+  margin: auto;
+  display: flex;
+  padding-left: 20px;
+  
+  
+  
+  
+}
+
+.form-control:focus {
+  box-shadow: none;
+  border-color: #ced4da;
+  outline: 0;
+  transition: none !important;
+}
+
+.menu {
+  display: flex;
+  align-items: center;
+  
+}
+
+/* Media Queries para Responsividade */
+
+/* Tablets (768px e abaixo) */
