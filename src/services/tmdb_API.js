@@ -1,4 +1,4 @@
-const API_KEY = '356b17524ed0a5282433261f3f0305f9';
+const API_KEY = 'sua_chave_api';
 const BASE_URL = 'https://api.themoviedb.org/3';
 
 
@@ -139,6 +139,22 @@ export const getCast = async (movieId) => {
 
 
 
+};
+
+// Recomendados
+
+export const getRecommendations = async (movieId) => {
+    try {
+        const response = await fetch(
+            `${BASE_URL}/movie/${movieId}/recommendations?api_key=${API_KEY}&language=pt-BR`
+        );
+        const data = await response.json();
+
+        return data.results || [];
+    } catch (error) {
+        console.error("Erro ao buscar recomendações:", error);
+        return [];
+    }
 };
 
 

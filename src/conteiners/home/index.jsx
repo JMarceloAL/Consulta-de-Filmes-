@@ -1,17 +1,21 @@
 
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
-import { searchMovies , getPopularMovies ,getTrailers, getReleasemovies } from '../../services/tmdb_API';
+import { searchMovies , getPopularMovies ,getTrailers, getReleasemovies ,getGenres, getMovieBygenre} from '../../services/tmdb_API';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import { Navigation  , EffectCoverflow} from 'swiper/modules';
+import { use } from 'react';
 
 function Home() {
   const [query, setQuery] = useState('');
   const [movies, setMovies] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const [popularMovies , setPopularMovies] =useState([]);
+  const [releaseMovies , setReleaseMovies] =useState([]);
+  const [popularmovies , setPopularMovies] = useState([]);
   const [menuOpen,setMenuOpen] = useState(false);
+  const[recommendedMovies, setRecommendedMovies] = useState([]);
 
   const inputRef = useRef();
   const suggestionsRef = useRef();
@@ -48,7 +52,7 @@ function Home() {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
-
+// Mostra os Lançamentos com os trailers
 useEffect(() => {
   async function fetchReleaseWithTrailers() {
     const movies = await getReleasemovies(); // <- pega os filmes em lançamento
@@ -58,12 +62,55 @@ useEffect(() => {
         return { ...movie, trailerUrl };
       })
     );
-    setPopularMovies(moviesWithTrailers); // Reutiliza o mesmo estado
+    setReleaseMovies(moviesWithTrailers); // Reutiliza o mesmo estado
   }
 
   fetchReleaseWithTrailers();
 }, []);
 
+// Mostra top 10 filmes Populares
+useEffect(() => {
+
+  async function fetchPopularMovies(){
+
+    const movies = await getPopularMovies(); // pega filmes Populares
+    setPopularMovies(movies.slice(0,10));
+
+   
+    
+  }
+  fetchPopularMovies();
+
+}, []);
+
+// Mostra 1 filmes popular por genero
+useEffect(()=>{
+
+  async function fetchRecommendedPergenre() {
+    
+    const genres = await getGenres(); // pega o genero id, name
+    const popular = await getPopularMovies();
+    const filter = [];
+
+
+    for (const genre of genres){
+
+      const movie = popular.find((m) => m.genre_ids.includes(genre.id));
+      if(movie && !filter.some(f => f.id === movie.id)){
+
+        filter.push({... movie, genreName: genre.name});
+
+      }
+
+      setRecommendedMovies(filter);
+
+    }
+
+  }
+
+fetchRecommendedPergenre();
+
+} ,[]);
   return (
     <div>
       <div className="header">
@@ -84,9 +131,9 @@ useEffect(() => {
   <div className={`sidebar-menu ${menuOpen ? 'open' : ''}`}>
     
     <a href="#">Início</a>
-    <a href="#lancamentos">Lançamentos</a>
-    <a href="#recomendados">Recomendados</a>
-    <a href="#rodape">Contato</a>
+    <a href="#">Lançamentos</a>
+    <a href="#">Populares</a>
+    <a >Genero</a>
   </div>
 </div>
         <div className="inputext search-box" ref={inputRef}>
@@ -147,7 +194,7 @@ breakpoints={{
 }}
   style={{ padding: '20px 0',  }}
 >
-  {popularMovies
+  {releaseMovies
     .filter((movie) => movie.trailerUrl)
     .map((movie) => (
         <SwiperSlide key={movie.id}>
@@ -167,14 +214,81 @@ breakpoints={{
 </Swiper>
     </div>
 </div>
-      <div className="releases">
-        <h1>Em alta</h1>
-      </div>
-      <div className="recommended">
-        <h1>Recomendados</h1>
-      </div>
+      <div className="top_10">
+  <h1 className='text_top10'>TOP 10</h1>
+  <Swiper 
+    modules={[Navigation]}
+    navigation
+    loop ={true}
+    spaceBetween={10}
+    slidesPerView={5}
+    breakpoints={{
+      640: { slidesPerView: 3 },
+      768: { slidesPerView: 4 },
+      1024: { slidesPerView: 5 },
+    }}
+    
+  >
+    {popularmovies.map((movie) => (
+      <SwiperSlide key={movie.id}>
+        <div className="top10_card">
+          <img 
+            src={
+              movie.poster_path
+                ? `https://image.tmdb.org/t/p/w300${movie.poster_path}`
+                : 'default-image-url'
+            }
+            alt={movie.title}
+           />
+          <p className="top10_title">{movie.title}</p>
+        </div>
+      </SwiperSlide>
+    ))}
+  </Swiper>
+</div>
+     <div className="recommended">
+  <h1 className="text_top10">Recomendados por Gênero</h1>
+  <Swiper 
+    modules={[Navigation]}
+    navigation
+    loop={true}
+    spaceBetween={10}
+    slidesPerView={5}
+    breakpoints={{
+      640: { slidesPerView: 3 },
+      768: { slidesPerView: 4 },
+      1024: { slidesPerView: 5 },
+    }}
+  >
+    {recommendedMovies.map((movie) => (
+      <SwiperSlide key={movie.id}>
+        <div className="top10_card">
+          <p className="genre-title">{movie.genreName}</p>
+          <img
+            src={
+              movie.poster_path
+                ? `https://image.tmdb.org/t/p/w300${movie.poster_path}`
+                : 'default-image-url'
+            }
+            alt={movie.title}
+          />
+          <p className="top10_title">{movie.title}</p>
+        </div>
+      </SwiperSlide>
+    ))}
+  </Swiper>
+</div>
       <div className="footer">
-        <h1>Rodapé</h1>
+        <h1 className='info_footer'>Informações</h1>
+        <a  target="_blacnk "href='https://github.com/JMarceloAL?tab=repositories'>
+        <h1  className='info_git'>Github</h1>
+
+        </a>
+        <a  target="_blacnk "href='https://developer.themoviedb.org/reference/intro/getting-started'>
+        <h1 className='credts_API'>TMDB API</h1>
+
+        </a>
+        
       </div>
     </div>
   );
