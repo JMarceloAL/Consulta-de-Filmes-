@@ -1,4 +1,4 @@
-const API_KEY = 'sua_chave_api';
+const API_KEY = 'sua_chave_api'; // sua_chave_api
 const BASE_URL = 'https://api.themoviedb.org/3';
 
 
@@ -125,20 +125,22 @@ export const getTrailers = async (movieId) => {
 
 // Buscar elenco
 export const getCast = async (movieId) => {
-
     try {
         const response = await fetch(`${BASE_URL}/movie/${movieId}/credits?api_key=${API_KEY}`);
         const data = await response.json();
-        return data.results || [];
 
+        // A API de créditos retorna { cast: [...], crew: [...] }
+        // Não usa data.results como outras APIs
+        console.log('Dados completos da API:', data); // Debug
 
+        return {
+            cast: data.cast || [],
+            crew: data.crew || []
+        };
     } catch (error) {
-        console.error("erro ao Buscar elenco:", error);
-        return [];
+        console.error("Erro ao buscar elenco:", error);
+        return { cast: [], crew: [] };
     }
-
-
-
 };
 
 // Recomendados

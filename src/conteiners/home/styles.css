@@ -203,21 +203,39 @@ font-size: 15px;
   color: #ffffff;
 }
 
-.swiper-slide {
+.swiperslide-lançamentos {
   transition: transform 0.3s ease, opacity 0.3s ease;
   filter: brightness(40%);
   border-radius: 15px;
   box-shadow: 5px 0 10px rgba(0, 0, 0, 0.5), -5px 0 10px rgba(0, 0, 0, 0.5);
   transform: scale(5.1); /* Tamanho dos slides laterais */
-
-}
-
-.swiper-slide-active {
   filter: brightness(100%);
   opacity: 1;
-  transform: scale(5.0); /* Tamanho do slide central */
+  transform: scale(5.0);
+}
+.swiperslide-top10{
+transition: transform 0.3s ease, opacity 0.3s ease;
+  filter: brightness(40%);
+  border-radius: 15px;
+  box-shadow: 5px 0 10px rgba(0, 0, 0, 0.5), -5px 0 10px rgba(0, 0, 0, 0.5);
+  transform: scale(5.1); /* Tamanho dos slides laterais */
+
+
+}
+.swiperslide-recommended{
+
+transition: transform 0.3s ease, opacity 0.3s ease;
+  filter: brightness(40%);
+  border-radius: 15px;
+  box-shadow: 5px 0 10px rgba(0, 0, 0, 0.5), -5px 0 10px rgba(0, 0, 0, 0.5);
+  transform: scale(5.1); /* Tamanho dos slides laterais */
+
  
 }
+
+
+ 
+
 
 .swiper-fade-wrapper {
   position: relative;

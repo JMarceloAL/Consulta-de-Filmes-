@@ -1,5 +1,5 @@
 
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
 import { searchMovies , getPopularMovies ,getTrailers, getReleasemovies ,getGenres, getMovieBygenre} from '../../services/tmdb_API';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -9,6 +9,18 @@ import { Navigation  , EffectCoverflow} from 'swiper/modules';
 import { use } from 'react';
 
 function Home() {
+
+  const navigate = useNavigate();
+
+const handleMovieClick = (movieId) => {
+  navigate(`/movie/${movieId}`);
+
+const  navigateHome = () => {
+
+    navigate(`/`);
+}
+};
+
   const [query, setQuery] = useState('');
   const [movies, setMovies] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -149,7 +161,7 @@ fetchRecommendedPergenre();
             ref={suggestionsRef}
           >
             {movies.map((movie) => (
-              <div key={movie.id} className="suggestion-item">
+              <div key={movie.id} className="suggestion-item" onClick={() => handleMovieClick(movie.id)}>
                 <img
                   src={
                     movie.poster_path
@@ -175,6 +187,7 @@ fetchRecommendedPergenre();
       <div className="high_info">
   <h1 className='title_lançamentos'>LANÇAMENTOS</h1>
   <Swiper 
+  className='swiper-lançamentos'
   modules={[Navigation, EffectCoverflow]}
   navigation
   loop={true}
@@ -197,8 +210,8 @@ breakpoints={{
   {releaseMovies
     .filter((movie) => movie.trailerUrl)
     .map((movie) => (
-        <SwiperSlide key={movie.id}>
-        <div className="trailer-box">
+        <SwiperSlide key={movie.id} className='swiperslide-lançamentos'>
+        <div className="trailer-box" onClick={ () => handleMovieClick(movie.id)} style={{ cursor: 'pointer'}}>
           <iframe className="trailer_card"
             width="100%"
             height="200"
@@ -217,6 +230,7 @@ breakpoints={{
       <div className="top_10">
   <h1 className='text_top10'>TOP 10</h1>
   <Swiper 
+    className='swiper-top10'
     modules={[Navigation]}
     navigation
     loop ={true}
@@ -230,8 +244,9 @@ breakpoints={{
     
   >
     {popularmovies.map((movie) => (
-      <SwiperSlide key={movie.id}>
-        <div className="top10_card">
+      <SwiperSlide key={movie.id}
+      className='swiperslide-top10'>
+        <div className="top10_card" onClick={() => handleMovieClick(movie.id)} style={{cursor: 'pointer'}}>
           <img 
             src={
               movie.poster_path
@@ -249,6 +264,7 @@ breakpoints={{
      <div className="recommended">
   <h1 className="text_top10">Recomendados por Gênero</h1>
   <Swiper 
+    className='swiper-recommended'
     modules={[Navigation]}
     navigation
     loop={true}
@@ -261,8 +277,8 @@ breakpoints={{
     }}
   >
     {recommendedMovies.map((movie) => (
-      <SwiperSlide key={movie.id}>
-        <div className="top10_card">
+      <SwiperSlide key={movie.id} className='swiperslide-recommended'>
+        <div className="top10_card" onClick={() => handleMovieClick(movie.id)} style={{cursor : 'pointer'}}>
           <p className="genre-title">{movie.genreName}</p>
           <img
             src={
@@ -284,7 +300,7 @@ breakpoints={{
         <h1  className='info_git'>Github</h1>
 
         </a>
-        <a  target="_blacnk "href='https://developer.themoviedb.org/reference/intro/getting-started'>
+        <a  target="_blacnk "href='https://www.themoviedb.org'>
         <h1 className='credts_API'>TMDB API</h1>
 
         </a>
