@@ -32,6 +32,7 @@ width: 700px;
 margin-left: 100px;
 display: flex;
 align-items: center;
+box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.5);
 
 
 
@@ -42,6 +43,7 @@ padding: 30px;
 width: 100%;
 height: 300px;
 background-color: rgb(12, 12, 12);
+box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.5);
 
 }
 .cast{
@@ -49,6 +51,7 @@ background-color: rgb(12, 12, 12);
 width: 100%;
 height: 320px;
 background-color: rgb(19, 19, 19);
+box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.5);
 
 
 }
@@ -57,8 +60,9 @@ background-color: rgb(19, 19, 19);
 
 
 width: 100%px;
-height: 250px;
-background-color: rgb(221, 47, 47);
+height: 270px;
+background-color: rgb(73, 23, 0);
+box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.5);
 
 
 
@@ -128,9 +132,33 @@ font-size: 20px;
 padding: 10px;
 margin-right: 25px;
 }
+.swiper-similar-movies{
+
+height: 270px;
 
 
+}
+.swiperslide-similar-movies{
 
+padding: 10px;
+height: 400px;
+
+    
+}
+
+.similar-card{
+margin-left: 35px;
+height: 400px;
+
+}
+.similar-photo{
+
+    height: 250px;
+    width: 170px;
+    
+    box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.8);
+
+}
 
 
 

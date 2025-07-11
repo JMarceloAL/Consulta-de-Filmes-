@@ -14,6 +14,7 @@ function Home() {
 
 const handleMovieClick = (movieId) => {
   navigate(`/movie/${movieId}`);
+   window.scrollTo(0,);
 
 const  navigateHome = () => {
 
@@ -142,8 +143,8 @@ fetchRecommendedPergenre();
 
   <div className={`sidebar-menu ${menuOpen ? 'open' : ''}`}>
     
-    <a href="#">Início</a>
-    <a href="#">Lançamentos</a>
+    <a  href="#" onClick={ () => {window.scrollTo(0,0); setMenuOpen(false)}}>Início</a>
+    <a href="#" >Lançamentos</a>
     <a href="#">Populares</a>
     <a >Genero</a>
   </div>

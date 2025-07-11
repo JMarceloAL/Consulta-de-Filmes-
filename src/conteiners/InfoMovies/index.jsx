@@ -31,11 +31,13 @@ function InfoMovies() {
   // ir para outro filme
   const handleMovieClick = (movieId) => {
     navigate(`/movie/${movieId}`);
+    window.scrollTo(0,);
   };
   
   // voltar para o Inicio
   const  navigateHome = () => {
     navigate(`/`);
+    window.scrollTo(0,0);
   };
   
   // Buscar dados do filme quando o ID mudar
@@ -115,6 +117,11 @@ function InfoMovies() {
   // Mostrar loading
   if (loading) {
     console.log("carregando")
+   
+
+
+
+    return  (<div> </div>)
   }
 
   // Mostrar erro
@@ -214,7 +221,7 @@ function InfoMovies() {
 
 
            ) : (
-              <h1 style={{marginLeft: 130, color: "black"}}>Trailer indisponivel</h1>
+              <h1 style={{marginLeft: 180, color: "grey"}}>Trailer indisponivel </h1>
            )}
 
           
@@ -281,9 +288,73 @@ function InfoMovies() {
       </div>
       <div className='similar_movies'>
         
+          <Swiper className='swiper-similar-movies'
+    modules={[Navigation]}
+    navigation
+    loop={true}
+    spaceBetween={10}
+    slidesPerView={5}
+    breakpoints={{
+      640: { slidesPerView: 3 },
+      768: { slidesPerView: 4 },
+      1024: { slidesPerView: 5 },
+    }}>
+
+
+            {similarMovies.map((movie) =>(
+              
+              <SwiperSlide key={movie.id} className='swiperslide-similar-movies'>
+              
+              <div className="similar-card"  style={{cursor: 'pointer'}}onClick={ () =>   handleMovieClick(movie.id)}>
+
+              <img className='similar-photo' src={
+
+                movie.poster_path  ? `https://image.tmdb.org/t/p/w300${movie.poster_path}`
+                : 'default-image-url'
+
+
+              
+              }>
+              
+              
+              </img  >
+
+
+              </div>
+
+              </SwiperSlide>
+
+
+            ))}
+            
+            
+            
+            
+            
+            
+            
+
+
+
+
+
+
+          </Swiper>
+
+
       </div>
 
-      <div className='footer'></div>
+      <div className='footer'>
+        <h1 className='info_footer'>Informações</h1>
+        <a  target="_blacnk "href='https://github.com/JMarceloAL?tab=repositories'>
+        <h1  className='info_git'>Github</h1>
+
+        </a>
+        <a  target="_blacnk "href='https://www.themoviedb.org'>
+        <h1 className='credts_API'>TMDB API</h1>
+
+        </a>
+      </div>
     </div>
   );
 }
