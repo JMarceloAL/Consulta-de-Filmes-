@@ -119,8 +119,6 @@ function InfoMovies() {
     console.log("carregando")
    
 
-
-
     return  (<div> </div>)
   }
 
