@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Link, useNavigate, useParams } from 'reac
 import { useState, useEffect, useRef } from 'react';
 import { searchMovies , getPopularMovies ,getTrailers, getReleasemovies ,getGenres, getMovieBygenre ,getMovieDetails ,getCast,getRecommendations} from '../../services/tmdb_API';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import HeaderNavBar from '../../components/headernavbar';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import { Navigation  , EffectCoverflow} from 'swiper/modules';
@@ -136,62 +137,8 @@ function InfoMovies() {
 
   return (
     <div>
-      <div className="header">
-        <div className="menu">
-          <nav className="navbar navbar-dark ">
-            <button
-              className="navbar-toggler"
-              type="button"
-              onClick={() => setMenuOpen(true)}
-            >
-              <span className="navbar-toggler-icon"></span>
-            </button>
-          </nav>
 
-          {/* Sidebar Lateral */}
-          {menuOpen && <div className="sidebar-overlay" onClick={() => setMenuOpen(false)}></div>}
-
-          <div className={`sidebar-menu ${menuOpen ? 'open' : ''}`}>
-            <a  style={{ cursor: 'pointer'}}  onClick={ () =>  navigateHome()}>Início</a>
-            <a href="#">Lançamentos</a>
-            <a href="#">Populares</a>
-            <a >Genero</a>
-          </div>
-        </div>
-        
-        <div className="inputext search-box" ref={inputRef}>
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Pesquisar Filmes"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-          />
-          <div
-            className={`suggestions ${showSuggestions && movies.length > 0 ? 'show' : ''}`}
-            ref={suggestionsRef}
-          >
-            {movies.map((movie) => (
-              <div key={movie.id} className="suggestion-item" onClick={() => handleMovieClick(movie.id)}>
-                <img
-                  src={
-                    movie.poster_path
-                      ? `https://image.tmdb.org/t/p/w92${movie.poster_path}`
-                      : 'default-image-url'
-                  }
-                  alt={movie.title}
-                />
-                <div className="movie-info">
-                  <div className="movie-title">{movie.title}</div>
-                  <div className="movie-year">
-                    {movie.release_date ? new Date(movie.release_date).getFullYear() : 'N/A'}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
+      <HeaderNavBar></HeaderNavBar>
       
       <div className="infMovies">
         <div className='image_movie_card'>

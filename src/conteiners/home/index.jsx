@@ -6,30 +6,19 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import { Navigation  , EffectCoverflow} from 'swiper/modules';
 import { use } from 'react';
-
+import HeaderNavBar from '../../components/headernavbar';
 function Home() {
 
   const navigate = useNavigate();
 
   // Estados
-  const [query, setQuery] = useState('');
-  const [movies, setMovies] = useState([]);
-  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [query, ] = useState('');
   const [releaseMovies , setReleaseMovies] =useState([]);
   const [popularmovies , setPopularMovies] = useState([]);
-  const [menuOpen,setMenuOpen] = useState(false);
   const[recommendedMovies, setRecommendedMovies] = useState([]);
-  const [genreMenuOpen , setGenreMenuOpen] = useState(false);
-  const [allGenres, setAllGenres] = useState([]);
+ 
 
-  const inputRef = useRef();
-  const suggestionsRef = useRef();
 
-  // Função para fechar o menu principal (e também o de gênero)
-  const closeSidebar = () => {
-    setMenuOpen(false);
-    setGenreMenuOpen(false); // Fecha o sidebar de gênero junto
-  };
 
   // Função para clique no gênero
   const handleGenreClick = (genreId , genreName) =>{
@@ -40,20 +29,12 @@ function Home() {
     setGenreMenuOpen(false);
   };
 
-  // Função para abrir sidebar de gêneros
-  const openGenreMenu = () => {
-    
-    setGenreMenuOpen(true);
-  };
+ 
 
   // Função para navegar para detalhes do filme
   const handleMovieClick = (movieId) => {
     navigate(`/movie/${movieId}`);
     window.scrollTo(0, 0);
-  };
-  
-  const navigateHome = () => {
-    navigate(`/`);
   };
 
   // Carregar todos os gêneros
@@ -69,39 +50,6 @@ function Home() {
     fetchAllGenres();
   }, []);
 
-  // Busca de filmes
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      if (query.trim()) {
-        searchMovies(query).then((results) => {
-          setMovies(results);
-          setShowSuggestions(true);
-        });
-      } else {
-        setMovies([]);
-        setShowSuggestions(false);
-      }
-    }, 300);
-
-    return () => clearTimeout(timeout);
-  }, [query]);
-
-  // Fechar sugestões ao clicar fora
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (
-        inputRef.current &&
-        !inputRef.current.contains(e.target) &&
-        suggestionsRef.current &&
-        !suggestionsRef.current.contains(e.target)
-      ) {
-        setShowSuggestions(false);
-      }
-    };
-    
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
 
   // Mostra os Lançamentos com os trailers
   useEffect(() => {
@@ -149,85 +97,7 @@ function Home() {
 
   return (
     <div>
-      <div className="header">
-        <div className="menu">
-          <nav className="navbar navbar-dark ">
-            <button
-              className="navbar-toggler"
-              type="button"
-              onClick={() => setMenuOpen(true)}
-            >
-              <span className="navbar-toggler-icon"></span>
-            </button>
-          </nav>
-
-          {/* Sidebar Principal */}
-          {menuOpen && <div className="sidebar-overlay" onClick={closeSidebar}></div>}
-
-          <div className={`sidebar-menu ${menuOpen ? 'open' : ''}`}>
-            <a href="#" onClick={() => {window.scrollTo(0,0); closeSidebar()}}>Início</a>
-            <a href="#" onClick={closeSidebar}>Lançamentos</a>
-            <a href="#" onClick={closeSidebar}>Populares</a>
-            <a  style={{cursor: 'pointer'}}onClick={openGenreMenu}>Gênero</a>
-          </div>
-
-          {/* Sidebar de Gêneros - só aparece quando genreMenuOpen for true */}
-          {genreMenuOpen && (
-            <>
-              <div className="sidebar-overlay" onClick={() => setGenreMenuOpen(false)}></div>
-              <div className="genre-sidebar open">
-                
-                
-                <div className="genre-list">
-                  {allGenres.map((genre) => (
-                    <div 
-                      key={genre.id} 
-                      className="genre-item" 
-                      onClick={() => handleGenreClick(genre.id, genre.name)}
-                    >
-                      <span>{genre.name}</span>
-                      <span className="genre-arrow">→</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </>
-          )}
-        </div>
-
-        <div className="inputext search-box" ref={inputRef}>
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Pesquisar Filmes"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-          />
-          <div
-            className={`suggestions ${showSuggestions && movies.length > 0 ? 'show' : ''}`}
-            ref={suggestionsRef}
-          >
-            {movies.map((movie) => (
-              <div key={movie.id} className="suggestion-item" onClick={() => handleMovieClick(movie.id)}>
-                <img
-                  src={
-                    movie.poster_path
-                      ? `https://image.tmdb.org/t/p/w92${movie.poster_path}`
-                      : 'default-image-url'
-                  }
-                  alt={movie.title}
-                />
-                <div className="movie-info">
-                  <div className="movie-title">{movie.title}</div>
-                  <div className="movie-year">
-                    {new Date(movie.release_date).getFullYear()}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
+      <HeaderNavBar></HeaderNavBar>
 
       <div className="swiper-container-wrapper">
         <div className="high_info">
