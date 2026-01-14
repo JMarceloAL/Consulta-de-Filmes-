@@ -1,4 +1,4 @@
-const API_KEY = 'sua_chave_api'; // sua_chave_api
+const API_KEY = '356b17524ed0a5282433261f3f0305f9'; // sua_chave_api
 const BASE_URL = 'https://api.themoviedb.org/3';
 
 
@@ -25,6 +25,37 @@ export const searchMovies = async (query) => {
     }
 
 
+};
+// Buscar Filmes Populares com paginação
+export const getPopularMoviesPages = async (page = 1) => {
+    try {
+        const response = await fetch(`${BASE_URL}/movie/popular?api_key=${API_KEY}&language=pt-BR&page=${page}`);
+        const data = await response.json();
+        return {
+            results: data.results || [],
+            total_pages: data.total_pages,
+            page: data.page
+        };
+    } catch (error) {
+        console.error('Erro ao buscar filmes populares', error);
+        return { results: [], total_pages: 0, page: 1 };
+    }
+};
+
+// Filtrar por gênero com paginação
+export const getMovieBygenrePages = async (genreId, page = 1) => {
+    try {
+        const response = await fetch(`${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=${genreId}&language=pt-BR&page=${page}`);
+        const data = await response.json();
+        return {
+            results: data.results || [],
+            total_pages: data.total_pages,
+            page: data.page
+        };
+    } catch (error) {
+        console.error("erro ao buscar genero de filmes", error);
+        return { results: [], total_pages: 0, page: 1 };
+    }
 };
 // Buscar Filmes Populares
 export const getPopularMovies = async () => {

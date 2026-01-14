@@ -37,26 +37,14 @@ function Home() {
     window.scrollTo(0, 0);
   };
 
-  // Carregar todos os gêneros
-  useEffect(() =>{
-    async function fetchAllGenres() {
-      try {
-        const genres = await getGenres();
-        setAllGenres(genres);
-      } catch (error) {
-        console.error('erro ao carregar todos os generos', error)
-      }
-    }
-    fetchAllGenres();
-  }, []);
-
+  
 
   // Mostra os Lançamentos com os trailers
   useEffect(() => {
     async function fetchReleaseWithTrailers() {
       const movies = await getReleasemovies();
       const moviesWithTrailers = await Promise.all(
-        movies.slice(0, 20).map(async (movie) => {
+        movies.slice(0,10).map(async (movie) => {
           const trailerUrl = await getTrailers(movie.id);
           return { ...movie, trailerUrl };
         })
@@ -116,10 +104,10 @@ function Home() {
               modifier: 3,
               slideShadows: false,
             }}
-            slidesPerView={1.5}
+            slidesPerView={2}
             breakpoints={{
-                768: { slidesPerView: 2.5 },
-                1024: { slidesPerView: 3.2 }
+                768: { slidesPerView: 2.5},
+                1024: { slidesPerView:3.2}
             }}
             style={{ padding: '20px 0',  }}
           >

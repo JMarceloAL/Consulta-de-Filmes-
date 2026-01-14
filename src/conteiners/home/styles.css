@@ -7,7 +7,7 @@
 .header {
   height: 60px;
   width: 100%;
-  background-color: rgb(19, 19, 19);
+  background-color: hsl(0, 0%, 7%);
   display: flex;
   align-items: center;
   padding: 0 20px;
@@ -202,7 +202,10 @@ font-size: 15px;
   font-weight: 600;
   color: #ffffff;
 }
-
+.swiper-lançamentos{
+  
+  width: 100%;
+}
 .swiperslide-lançamentos {
   transition: transform 0.3s ease, opacity 0.3s ease;
   filter: brightness(40%);

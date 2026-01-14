@@ -1,0 +1,66 @@
+.body_Listmovies {
+
+background-color: rgb(255, 0, 0);
+height: 1500px;
+width: 100% ;
+display: flexbox;
+justify-items: center;
+
+
+
+
+}
+.ListMovies {
+
+background-color: rgb(0, 62, 73);
+padding-top: 200px;
+height: 2100px;
+display: flexbox;
+width: 100%;
+justify-content: center;
+justify-items: center;
+display: list-item
+
+}
+.Movies {
+
+background-color: rgb(36, 36, 36);
+height: 1800px;
+width: 1000px;
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 50px;
+
+ padding: 20px; 
+
+
+}
+.movie-card{
+cursor: pointer;
+   
+}
+.pagination{
+position: absolute;
+
+
+    
+}
+.page-numbers{
+height: 0;
+color: snow;
+}
+.page-number{
+    text-decoration: none;
+    border-radius: 30px;
+    width: 50px;
+    height: 50px;
+    margin: 25px;
+    text-align: center;
+    background-color: rgb(0, 62, 73);
+ color: snow;
+    
+    
+}
+button {
+  all: unset;
+}

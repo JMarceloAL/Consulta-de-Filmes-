@@ -1,12 +1,9 @@
-
 import { useState, useEffect, useRef } from 'react';
-import { useNavigate  } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { searchMovies, getGenres } from '../services/tmdb_API';
 
 function HeaderNavBar() {
   const navigate = useNavigate();
-  
-  
 
   // Estados
   const [query, setQuery] = useState('');
@@ -22,16 +19,16 @@ function HeaderNavBar() {
   // Função para fechar o menu principal (e também o de gênero)
   const closeSidebar = () => {
     setMenuOpen(false);
-    setGenreMenuOpen(false); // Fecha o sidebar de gênero junto
+    setGenreMenuOpen(false);
   };
 
   // Função para clique no gênero
   const handleGenreClick = (genreId, genreName) => {
     console.log('Id do Genero Selecionado', genreId);
     console.log('Nome do Genero', genreName);
-    // Aqui você pode adicionar lógica para navegar ou filtrar filmes por gênero
-    // navigate(`/genre/${genreId}`);
+    navigate(`/list/genre/${genreId}`); // Navega para lista filtrada por gênero
     setGenreMenuOpen(false);
+    setMenuOpen(false);
   };
 
   // Função para abrir sidebar de gêneros
@@ -44,11 +41,14 @@ function HeaderNavBar() {
     navigate(`/movie/${movieId}`);
     window.scrollTo(0, 0);
   };
-  
+
   const navigateHome = () => {
     navigate(`/`);
   };
 
+  const navigatelist = () => {
+    navigate(`/list`); // Navega para lista de filmes populares
+  };
 
   // Carregar todos os gêneros
   useEffect(() => {
@@ -114,22 +114,21 @@ function HeaderNavBar() {
         {menuOpen && <div className="sidebar-overlay" onClick={closeSidebar}></div>}
 
         <div className={`sidebar-menu ${menuOpen ? 'open' : ''}`}>
-          <a href="#" onClick={() => { closeSidebar () ; navigateHome ();}}>Início</a>
-          <a href="#" onClick={closeSidebar}>Lançamentos</a>
-          <a href="#" onClick={closeSidebar}>Populares</a>
-          <a style={{cursor: 'pointer'}} onClick={openGenreMenu}>Gênero</a>
+          <a href="#" onClick={() => { closeSidebar(); navigateHome(); }}>Início</a>
+          <a href="#" onClick={() => { closeSidebar(); navigatelist(); }}>Lista de filmes</a>
+          <a style={{ cursor: 'pointer' }} onClick={openGenreMenu}>Gênero</a>
         </div>
 
-        {/* Sidebar de Gêneros - só aparece quando genreMenuOpen for true */}
+        {/* Sidebar de Gêneros */}
         {genreMenuOpen && (
           <>
             <div className="sidebar-overlay" onClick={() => setGenreMenuOpen(false)}></div>
             <div className="genre-sidebar open">
               <div className="genre-list">
                 {allGenres.map((genre) => (
-                  <div 
-                    key={genre.id} 
-                    className="genre-item" 
+                  <div
+                    key={genre.id}
+                    className="genre-item"
                     onClick={() => handleGenreClick(genre.id, genre.name)}
                   >
                     <span>{genre.name}</span>
