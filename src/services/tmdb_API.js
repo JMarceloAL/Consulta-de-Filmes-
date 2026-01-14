@@ -1,4 +1,4 @@
-const API_KEY = '356b17524ed0a5282433261f3f0305f9'; // sua_chave_api
+const API_KEY = 'sua_chave_api'; // sua_chave_api
 const BASE_URL = 'https://api.themoviedb.org/3';
 
 
